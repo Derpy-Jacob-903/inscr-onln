@@ -221,7 +221,15 @@ const all_sigils = {
 	"Gem Detonator (5)": "When Mox cards on the owner's side of the board die, they Detonate (the creature opposing them, as well as adjacent friendly creatures, are dealt 5 damage).",
 	"Gem Guardian": "When a card bearing this sigil is played, all Moxa cards on the owners' side of the board gain Nano Armor.",
 	"Great Mox": "While a card bearing this sigil is on the board, it provides a green, orange, and blue gem to its owner.",
+	"Greater Mox": "While a card bearing this sigil is on the board, it provides a green, orange, blue, purple, red, yellow, and black gem to its owner. This counts only conuts as 3 gems for Prism costs.",
 	"Green Mox": "While a card bearing this sigil is on the board, it provides a green gem to its owner.",
+	"Purple Mox": "While a card bearing this sigil is on the board, it provides a purple gem to its owner.",
+	"Purple Mox (2)": "While a card bearing this sigil is on the board, it provides 2 purple gems to its owner.",
+	"Red Mox": "While a card bearing this sigil is on the board, it provides a red gem to its owner.",
+	"Yellow Mox": "While a card bearing this sigil is on the board, it provides a yellow gem to its owner.",
+	"Black Mox": "While a card bearing this sigil is on the board, it provides a black gem to its owner.",
+	"Prism Mox": "While a card bearing this sigil is on the board, it provides a gem of any color to its owner.",
+	"Double Prism Mox": "While a card bearing this sigil is on the board, it provides 2 gems of any color to its owner.",
 	"Guardian": "When an opposing creature is placed opposite to an empty space, a card bearing this sigil will move to that empty space.",
 	"Handy": "When a card bearing this sigil is played, discard your hand then draw a new hand of 4 cards.",
 	"Hefty": "At the end of the owner's turn, a card bearing this sigil will move in the direction inscribed in the sigil. creatures in the way will be pushed in the same direction.",
@@ -270,7 +278,7 @@ const all_sigils = {
 	"Vessel Printer": "Once a card bearing this sigil is struck, draw a card from your side deck.",
 	"Warded": "A card bearing this sigil takes only 1 damage from attacks and card effects.",
 	"Waterborne": "A card bearing this sigil submerges itself during its opponent's turn. while submerged, opposing creatures attack its owner directly.",
-	"Worthy Sacrifice": "A card bearing this sigil is counted as 3 blood rather than 1 blood when sacrificed."
+	"Worthy Sacrifice": "A card bearing this sigil is counted as 3 blood rather than 1 blood when sacrificed.",
 }
 
 const working_sigils = [
@@ -282,6 +290,10 @@ const working_sigils = [
 	"Blue Mox",
 	"Green Mox",
 	"Orange Mox",
+	"Purple Mox",
+	"Purple Mox (2)",
+	"Red Mox",
+	"Yellow Mox",
 	"Great Mox",
 	"Rabbit Hole",
 	"Touch of Death",

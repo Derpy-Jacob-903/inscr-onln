@@ -54,6 +54,10 @@ var damage_stun = false
 # Resources
 var bones = 0
 var opponent_bones = 0
+var bloontonium = 0
+var opponent_bloontonium = 0
+var data = 0
+var opponent_data = 0
 
 var energy = 0
 var max_energy = 0
@@ -61,6 +65,9 @@ var max_energy_buff = 0
 var opponent_energy = 0
 var opponent_max_energy = 0
 var opponent_max_energy_buff = 0
+var max_energy_limit = 6
+
+var great_mox_colors = ["Green", "Orange", "Blue"]
 
 var hammers_left = -1
 
@@ -206,6 +213,10 @@ func init_match(opp_id: int, do_go_first: bool):
 	
 	bones = 0
 	opponent_bones = 0
+	bloontonium = 0
+	opponent_bloontonium = 0
+	data = 0
+	opponent_data = 0
 	add_bones(0)
 	add_opponent_bones(0)
 	
@@ -223,10 +234,19 @@ func init_match(opp_id: int, do_go_first: bool):
 	if "starting_energy_max" in CardInfo.all_data:
 		set_max_energy(CardInfo.all_data.starting_energy_max)
 		set_opponent_max_energy(CardInfo.all_data.starting_energy_max)
+		set_data(int(go_first))
+		set_opponent_data(int(not go_first))
+	
+	if "energy_max_limit" in CardInfo.all_data:
+		max_energy_limit = CardInfo.all_data.energy_max_limit
 	
 	set_energy(max_energy)
+	set_data(0)
 	set_opponent_energy(opponent_max_energy)
-	
+	set_opponent_data(0)
+	great_mox_colors = ["Green", "Orange", "Blue"]
+	if "set_great_mox_colors" in CardInfo.all_data:
+		great_mox_colors = CardInfo.all_data.set_great_mox_colors
 	state = GameStates.NORMAL
 	
 	# Draw starting hands (sidedeck first for starve check)
@@ -295,8 +315,10 @@ func end_turn():
 	if CardInfo.all_data.enable_backrow:
 		slotManager.shift_cards_forward(true)
 		
+	# Add my data
+	set_data(min (data + energy, max_energy + max_energy_buff))
 	# Bump opponent's energy
-	if opponent_max_energy < 6:
+	if opponent_max_energy < max_energy_limit:
 		set_opponent_max_energy(opponent_max_energy + 1)
 	set_opponent_energy(opponent_max_energy)
 	
@@ -592,14 +614,34 @@ func play_card(slot: Node):
 				"slot": slot.get_position_in_parent()
 			})
 			
+			print("Bloontonium at start:", bloontonium)
 			# Bone cost
 			if "bone_cost" in playedCard.card_data:
 				add_bones(-playedCard.card_data["bone_cost"])
+				add_bloontonium(playedCard.card_data["bone_cost"])
 			
 			# Energy cost
 			if "energy_cost" in playedCard.card_data and not no_energy_deplete:
 				set_energy(energy -playedCard.card_data["energy_cost"])
+				add_bloontonium(playedCard.card_data["energy_cost"])
 			
+			# Data cost
+			if "data_cost" in playedCard.card_data:
+				if no_energy_deplete: #Reduce Data cost by max_energy
+					spend_data(max (0, playedCard.card_data["data_cost"] - max_energy))
+					add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
+				else:
+					spend_data(playedCard.card_data["data_cost"])
+					add_bloontonium(playedCard.card_data["data_cost"])
+			# Energy cost
+			if "blon_cost" in playedCard.card_data:
+				add_bloontonium(-playedCard.card_data["blon_cost"])
+				
+			# Energy cost
+			if "overcharge_cost" in playedCard.card_data and not no_energy_deplete:
+				set_max_energy(energy -playedCard.card_data["overcharge_cost"])
+			
+			print("Bloontonium at end:", bloontonium)
 			playedCard.move_to_parent(slot)
 			handManager.raisedCard = null
 
@@ -638,10 +680,28 @@ func play_card_back(slot):
 			# Bone cost
 			if "bone_cost" in playedCard.card_data:
 				add_bones(-playedCard.card_data["bone_cost"])
+				add_bloontonium(playedCard.card_data["bone_cost"])
 			
 			# Energy cost
-			if "energy_cost" in playedCard.card_data:
+			if "energy_cost" in playedCard.card_data and not no_energy_deplete:
 				set_energy(energy -playedCard.card_data["energy_cost"])
+				add_bloontonium(playedCard.card_data["energy_cost"])
+			
+			# Data cost
+			if "data_cost" in playedCard.card_data:
+				if no_energy_deplete: #Reduce Data cost by max_energy
+					spend_data(max (0, playedCard.card_data["data_cost"] - max_energy))
+					add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
+				else:
+					spend_data(playedCard.card_data["data_cost"])
+					add_bloontonium(playedCard.card_data["data_cost"])
+			# Energy cost
+			if "blon_cost" in playedCard.card_data:
+				add_bloontonium(-playedCard.card_data["blon_cost"])
+				
+			# Energy cost
+			if "overcharge_cost" in playedCard.card_data and not no_energy_deplete:
+				set_max_energy(energy -playedCard.card_data["overcharge_cost"])
 			
 			playedCard.move_to_parent(slot)
 			handManager.raisedCard = null
@@ -889,7 +949,7 @@ func _opponent_played_card(card, slot, ignore_cost = false):
 	var card_dt = card if typeof(card) == TYPE_DICTIONARY else CardInfo.all_cards[card]
 	
 	# Special case: Starvation
-	if card_dt["name"] == "Starvation":
+	if card_dt["name"] == CardInfo.all_cards[0].name:
 		
 		# Inflict starve damage
 		if turns_starving >= 9:
@@ -901,10 +961,25 @@ func _opponent_played_card(card, slot, ignore_cost = false):
 	
 	# Costs
 	if not ignore_cost:
+		print("opp Bloontonium at start:", bloontonium)
 		if "bone_cost" in card_dt:
 			add_opponent_bones(-card_dt["bone_cost"])
+			add_bloontonium(card_dt["bone_cost"])
 		if "energy_cost" in card_dt and not no_energy_deplete:
 			set_opponent_energy(opponent_energy -card_dt["energy_cost"])
+			add_opponent_bloontonium(card_dt["energy_cost"])
+		# Data cost
+		if "data_cost" in card_dt:
+			if no_energy_deplete: #Reduce Data cost by max_energy
+				spend_data(max (0, card_dt["data_cost"] - max_energy))
+				add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
+			else:
+				spend_data(card_dt["data_cost"])
+				add_opponent_bloontonium(card_dt["data_cost"])
+		# Energy cost
+		if "blon_cost" in card_dt:
+			add_bloontonium(-card_dt["blon_cost"])
+		print("opp Bloontonium after adding:", bloontonium)
 	
 	# Sigil effects:
 	var new_card = handManager.opponentRaisedCard
@@ -946,10 +1021,25 @@ func _opponent_played_card_back(card, slot, ignore_cost = false):
 	
 	# Costs
 	if not ignore_cost:
+		print("Bloontonium at start:", bloontonium)
 		if "bone_cost" in card_dt:
 			add_opponent_bones(-card_dt["bone_cost"])
+			add_bloontonium(card_dt["bone_cost"])
 		if "energy_cost" in card_dt and not no_energy_deplete:
 			set_opponent_energy(opponent_energy -card_dt["energy_cost"])
+			add_opponent_bloontonium(card_dt["energy_cost"])
+		# Data cost
+		if "data_cost" in card_dt:
+			if no_energy_deplete: #Reduce Data cost by max_energy
+				spend_data(max (0, card_dt["data_cost"] - max_energy))
+				add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
+			else:
+				spend_data(card_dt["data_cost"])
+				add_opponent_bloontonium(card_dt["data_cost"])
+		# Energy cost
+		if "blon_cost" in card_dt:
+			add_bloontonium(-card_dt["blon_cost"])
+		print("Bloontonium after adding:", bloontonium)
 	
 	# Sigil effects:
 	var new_card = handManager.opponentRaisedCard
@@ -986,8 +1076,9 @@ remote func force_draw_starv(strength):
 	
 	var starv_data = CardInfo.all_cards[0].duplicate()
 	starv_data["attack"] = strength
-	if strength >= 5:
-		starv_data["sigils"] = ["Repulsive", "Mighty Leap"]
+	if strength >= 5 and starv_data["sigils"].has("Mighty Leap"):
+		starv_data["sigils"].append("Mighty Leap")
+		#starv_data["sigils"] = ["Repulsive", "Mighty Leap"]
 	
 	starv_card.from_data(starv_data)
 	
@@ -1068,6 +1159,18 @@ func add_opponent_bones(bone_no):
 	opponent_bones += bone_no
 	$PlayerInfo/TheirInfo/Bones/BoneCount.text = str(opponent_bones)
 	$PlayerInfo/TheirInfo/Bones/BoneCount2.text = str(opponent_bones)
+	
+func add_bloontonium(bone_no):
+	print("Adding bloontonium ", bloontonium, " => ", bloontonium + bone_no)
+	bloontonium += bone_no
+	$PlayerInfo/MyInfo/Blon/BlonCount.text = str(bloontonium)
+	$PlayerInfo/MyInfo/Blon/BlonCount2.text = str(bloontonium)
+
+func add_opponent_bloontonium(bone_no):
+	print("Adding enemy bloontonium ", opponent_bloontonium, " => ", opponent_bloontonium + bone_no)
+	opponent_bloontonium += bone_no
+	$PlayerInfo/TheirInfo/Blon/BlonCount.text = str(opponent_bloontonium)
+	$PlayerInfo/TheirInfo/Blon/BlonCount2.text = str(opponent_bloontonium)
 
 func set_energy(ener_no):
 	energy = ener_no
@@ -1077,16 +1180,54 @@ func set_opponent_energy(ener_no):
 	opponent_energy = ener_no
 	$PlayerInfo/TheirInfo/Energy/AvailableEnergy.rect_size.x = 10 * ener_no
 	$PlayerInfo/TheirInfo/Energy/AvailableEnergy.rect_position.x = 20 - 20 * ener_no
-
+	
+func set_data(ener_no):
+	data = ener_no
+	$PlayerInfo/MyInfo/Data/AvailableData.rect_size.x = 10 * ener_no
+	
+func set_opponent_data(ener_no):
+	opponent_data = ener_no
+	$PlayerInfo/TheirInfo/Data/AvailableData.rect_size.x = 10 * ener_no
+	$PlayerInfo/TheirInfo/Data/AvailableData.rect_position.x = 20 - 20 * ener_no
+	
+func spend_data(ener_no):
+	if ener_no > data:
+		var n = ener_no
+		n - data
+		set_data(0)
+		set_energy(energy - n)
+	elif ener_no > data + energy: #failsafe
+		print("trying to spend more data/energy than we have.")
+		set_data(0)
+		set_energy(0)
+	else:
+		set_data(data - ener_no)
+	
+func spend_opponent_data(ener_no):
+	if ener_no > opponent_data:
+		var n = ener_no
+		n - opponent_data
+		set_opponent_data(0)
+		set_opponent_energy(energy - ener_no)
+	elif ener_no > opponent_data + opponent_energy: #failsafe
+		print("trying to spend more data/energy than they have.")
+		set_opponent_data(0)
+		set_opponent_energy(0)
+	else:
+		set_opponent_data(opponent_data - ener_no)
+	
 func set_max_energy(ener_no):
 	max_energy = ener_no
 	$PlayerInfo/MyInfo/Energy/MaxEnergy.rect_size.x = 10 * (ener_no+max_energy_buff)
+	$PlayerInfo/MyInfo/Data/MaxData.rect_size.x = 10 * (ener_no+max_energy_buff)
 	
 func set_opponent_max_energy(ener_no):
 	opponent_max_energy = ener_no
 	$PlayerInfo/TheirInfo/Energy/MaxEnergy.rect_size.x = 10 * (ener_no+opponent_max_energy_buff)
 	$PlayerInfo/TheirInfo/Energy/MaxEnergy.rect_position.x = 20 - 20 * (ener_no+opponent_max_energy_buff)
 
+	$PlayerInfo/TheirInfo/Data/MaxData.rect_size.x = 10 * (ener_no+opponent_max_energy_buff)
+	$PlayerInfo/TheirInfo/Data/MaxData.rect_position.x = 20 - 20 * (ener_no+opponent_max_energy_buff)
 
 func reload_hand():
 	for card in handManager.get_node("PlayerHand").get_children():
@@ -1225,7 +1366,7 @@ func start_turn():
 	move_done()
 	
 	# Increment energy
-	if max_energy < 6:
+	if max_energy < max_energy_limit:
 		set_max_energy(max_energy + 1)
 	set_energy(max_energy + max_energy_buff)
 

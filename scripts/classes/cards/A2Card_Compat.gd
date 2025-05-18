@@ -237,12 +237,16 @@ func draw_costs(cDat: Dictionary) -> void:
 	
 	var costRoot = get_node("Costs")
 	
+	for child in costRoot.get_children():
+		print(child.name)
 	for cost in [
 		"blood",
 		"bone",
-		"energy"
+		"energy",
+		"data",
+		"blon"
 	]:
-		var costNode = costRoot.get_node(cost)
+		var costNode = costRoot.get_node(cost) #this is null for "data"?
 #		var costs = cDat.get("costs", {})
 		
 		if not cDat.get(cost + "_cost"):
@@ -271,7 +275,11 @@ func draw_costs(cDat: Dictionary) -> void:
 	var moxNames = [
 			"Orange",
 			"Blue",
-			"Green"
+			"Green",
+			"Purple",
+			"Red",
+			"Yellow",
+			"Black"
 		]
 	
 	var mox_node = costRoot.get_node("mox")

@@ -334,8 +334,9 @@ func download_scripts(dat):
 		for script_name in dat.custom_sigils:
 			# "Mighty Leap": "https://..."
 			var fp = CardInfo.scripts_path + dat.ruleset + "_" + script_name + ".gd"
-
-			if not dat.custom_sigils[script_name].url.begins_with("https://raw.githubusercontent.com/107zxz/inscr-onln-scripts/main/"):
+			
+			print(dat.custom_sigils[script_name].url)
+			if not (dat.custom_sigils[script_name].url.begins_with("https://raw.githubusercontent.com/107zxz/inscr-onln-scripts/main/") or dat.custom_sigils[script_name].url.begins_with("https://file.garden/ZXMmcj_dI1vYUist/")):
 				print("Untrusted sigil!")
 				
 				$Warning.current_url = dat.custom_sigils[script_name].url

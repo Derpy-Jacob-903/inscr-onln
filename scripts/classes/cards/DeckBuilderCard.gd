@@ -100,19 +100,21 @@ func _on_Card_mouse_entered():
 		if "active" in card_data:
 			sd.get_child(1).texture = $Active/ActiveIcon.texture
 		else:
-			sd.get_child(1).texture = $Sigils/Row1.get_child(sigIdx).texture
+			if not sd == null:
+				sd.get_child(1).texture = $Sigils/Row1.get_child(sigIdx).texture
 
-		sd.get_child(2).text = sigdat + ":\n" + CardInfo.gen_sig_desc(sigdat, card_data)
+		if not sd == null:
+			sd.get_child(2).text = sigdat + ":\n" + CardInfo.gen_sig_desc(sigdat, card_data)
 
-		if "custom_sigils" in CardInfo.all_data and sigdat in CardInfo.all_data.custom_sigils:
-			sd.get_child(2).text += "\nThis is a custom sigil created by " + CardInfo.all_data.custom_sigils[sigdat].author
-			sd.get_child(2).add_color_override("font_color", Color.darkblue)
-		elif not sigdat in CardInfo.working_sigils:
-			sd.get_child(2).text += "\nThis sigil is not yet implemented, and will not work"
-			sd.get_child(2).add_color_override("font_color", Color.darkred)
-		else:
-			sd.get_child(2).add_color_override("font_color", paperTheme.get_color("font_color", "Label"))
+			if "custom_sigils" in CardInfo.all_data and sigdat in CardInfo.all_data.custom_sigils:
+				sd.get_child(2).text += "\nThis is a custom sigil created by " + CardInfo.all_data.custom_sigils[sigdat].author
+				sd.get_child(2).add_color_override("font_color", Color.darkblue)
+			elif not sigdat in CardInfo.working_sigils:
+				sd.get_child(2).text += "\nThis sigil is not yet implemented, and will not work"
+				sd.get_child(2).add_color_override("font_color", Color.darkred)
+			else:
+				sd.get_child(2).add_color_override("font_color", paperTheme.get_color("font_color", "Label"))
 
-#		previewCont.get_child(1).add_child(sd)
-		sd.visible = true
+#			previewCont.get_child(1).add_child(sd)
+			sd.visible = true
 		sigIdx += 1

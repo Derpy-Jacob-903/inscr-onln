@@ -90,7 +90,7 @@ size_flags_vertical = 3
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 798.0
-margin_bottom = 102.0
+margin_bottom = 319.0
 size_flags_horizontal = 3
 
 [node name="CustomPicker" type="PanelContainer" parent="FeaturedRulesets/VBoxContainer/ScrollContainer/FeatRsCont"]
@@ -154,7 +154,6 @@ enabled_focus_mode = 0
 text = "Open Folder"
 
 [node name="RulesetLine" parent="FeaturedRulesets/VBoxContainer/ScrollContainer/FeatRsCont" instance=ExtResource( 4 )]
-visible = false
 
 [node name="ScrollButtons" type="HBoxContainer" parent="FeaturedRulesets/VBoxContainer"]
 margin_top = 646.0
@@ -462,10 +461,10 @@ text = "v0.1.9"
 [node name="Jake" type="TextureRect" parent="."]
 material = ExtResource( 8 )
 margin_left = 160.0
-margin_top = 874.902
+margin_top = 870.166
 margin_right = 274.0
-margin_bottom = 968.902
-rect_rotation = 90.0
+margin_bottom = 964.166
+rect_rotation = 47.2904
 rect_scale = Vector2( 2, 2 )
 rect_pivot_offset = Vector2( 57, 47 )
 texture = ExtResource( 5 )

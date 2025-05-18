@@ -163,11 +163,10 @@ func _on_Button_pressed():
 			fightManager.state = fightManager.GameStates.NORMAL
 
 			# Clear sacrifices
-			for card in slotManager.sac_victims:
+			for card in slotManager.sacVictims:
 				card.get_node("CardBody/SacOlay").visible = false
 				slotManager.rpc_id(fightManager.opponent, "set_sac_olay_vis", card.slot_idx(), $CardBody/SacOlay.visible)
-
-			slotManager.sac_victims = []
+			slotManager.sacVictims = []
 
 		elif in_hand:
 
@@ -179,10 +178,21 @@ func _on_Button_pressed():
 			if "energy_cost" in card_data and fightManager.energy < card_data["energy_cost"]:
 				print("You need more energy!")
 				return
+				
+			if "data_cost" in card_data and fightManager.energy + fightManager.data < card_data["data_cost"]:
+				print("You need more data or energy!")
+				return
+			if "blon_cost" in card_data and fightManager.bloontonium < card_data["blon_cost"]:
+				print("You need more Bloontonium!")
+				return
 
 			if "blood_cost" in card_data:
 				if slotManager.get_available_blood() < card_data["blood_cost"]:
 					print("You need more sacrifices!")
+					return
+			if "prism_cost" in card_data:
+				if slotManager.get_available_prism([]) < card_data["prism_cost"]:
+					print("You need more gems! ( " + card_data["prism_cost"] + " required.)")
 					return
 #				if slotManager.is_cat_bricked():
 #					print("No room to play a card after sacrifice!")
@@ -195,7 +205,7 @@ func _on_Button_pressed():
 
 			if "mox_cost" in card_data and not slotManager.get_friendly_cards_sigil("Great Mox"):
 				for mox in card_data["mox_cost"]:
-					if not slotManager.get_friendly_cards_sigil(mox + " Mox"):
+					if not slotManager.get_friendly_cards_sigil(mox + " Mox") or not slotManager.get_friendly_cards_sigil(mox + " Mox"):
 						print(mox + " Mox missing")
 						return
 
@@ -262,8 +272,8 @@ func _on_Button_pressed():
 
 		# Am I about to be sacrificed
 		if fightManager.state == fightManager.GameStates.SACRIFICE:
-			if self in slotManager.sac_victims:
-				slotManager.sac_victims.erase(self)
+			if self in slotManager.sacVictims:
+				slotManager.sacVictims.erase(self)
 				$CardBody/SacOlay.visible = false
 			else:
 
@@ -292,7 +302,7 @@ func _on_Button_pressed():
 				if "nosac" in card_data or calc_blood() <= 0:
 					return
 
-				slotManager.sac_victims.append(self)
+				slotManager.sacVictims.append(self)
 				$CardBody/SacOlay.visible = true
 
 				# Attempt a sacrifice
@@ -1012,6 +1022,12 @@ func is_alive():
 func calc_blood():
 	var blood = 1
 	for sig in grouped_sigils[SigilEffect.SigilTriggers.BONUS_BLOOD]:
+		blood += sig.bonus_blood()
+	return blood
+	
+func calc_prism():
+	var blood = 0
+	for sig in grouped_sigils[SigilEffect.SigilTriggers.PRISMCOUNTER]:
 		blood += sig.bonus_blood()
 	return blood
 

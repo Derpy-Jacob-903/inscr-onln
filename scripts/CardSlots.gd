@@ -67,7 +67,46 @@ func get_available_blood() -> int:
 			blood += card_blood
 
 	return blood
+# Sacrifice
+func get_available_prism(mox_costs = []) -> int:
+	var prism = -mox_costs.count() #crudly exclude moxs the card already use
+	
+	var sacTargets = all_friendly_cards_backrow() if CardInfo.all_data.enable_backrow else all_friendly_cards()
 
+	for card in sacTargets:
+		var card_prism = 0
+		if "sigils" in card.card_data:
+			if "Green Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Orange Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Blue Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Purple Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Purple Mox (2)" in card.card_data["sigils"]:
+				prism += 2
+			if "Purple Mox (3)" in card.card_data["sigils"]:
+				prism += 3
+			if "Purple Mox (4)" in card.card_data["sigils"]:
+				prism += 4
+			if "Red Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Yellow Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Black Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Prism Mox" in card.card_data["sigils"]:
+				prism += 1
+			if "Moximum Magick" in card.card_data["sigils"]:
+				prism += 2
+			if "Great Mox" in card.card_data["sigils"]:
+				prism += 3
+			if "Elite Mox" in card.card_data["sigils"]:
+				prism += 3
+		prism += card_prism
+
+	return prism
 func get_available_slots() -> int:
 	var freeSlots = nLanes
 

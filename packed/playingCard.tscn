@@ -414,7 +414,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=29]
 resource_name = "ProcGeneric"
 length = 0.2
 tracks/0/type = "value"
@@ -592,12 +592,6 @@ margin_bottom = 185.0
 hint_tooltip = "Nuts"
 script = ExtResource( 16 )
 
-[node name="mox" parent="CardBody/Costs" index="3"]
-margin_right = 121.0
-
-[node name="AtkIcon" parent="CardBody" index="6"]
-visible = false
-
 [node name="DiveOlay" type="TextureRect" parent="CardBody"]
 visible = false
 modulate = Color( 0.87, 0.783, 0.783, 1 )
@@ -636,13 +630,9 @@ anims/DoublePerish = SubResource( 17 )
 anims/Evolve = SubResource( 13 )
 anims/Lower = SubResource( 5 )
 anims/Perish = SubResource( 10 )
-anims/ProcGeneric = SubResource( 14 )
+anims/ProcGeneric = SubResource( 29 )
 anims/RESET = SubResource( 6 )
 anims/Raise = SubResource( 18 )
 anims/UnDive = SubResource( 16 )
 
 [node name="Tween" type="Tween" parent="."]
-
-[connection signal="button_down" from="CardBody/Active" to="CardBody" method="_on_Active_button_down"]
-
-[editable path="CardBody"]
