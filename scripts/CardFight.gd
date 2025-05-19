@@ -316,7 +316,8 @@ func end_turn():
 		slotManager.shift_cards_forward(true)
 		
 	# Add my data
-	set_data(min (data + energy, max_energy + max_energy_buff))
+	if not data > max_energy + max_energy_buff:
+		set_data(min (data + energy, max_energy + max_energy_buff))
 	# Bump opponent's energy
 	if opponent_max_energy < max_energy_limit:
 		set_opponent_max_energy(opponent_max_energy + 1)

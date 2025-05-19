@@ -90,7 +90,7 @@ size_flags_vertical = 3
 margin_left = 2.0
 margin_top = 2.0
 margin_right = 798.0
-margin_bottom = 319.0
+margin_bottom = 102.0
 size_flags_horizontal = 3
 
 [node name="CustomPicker" type="PanelContainer" parent="FeaturedRulesets/VBoxContainer/ScrollContainer/FeatRsCont"]
@@ -154,6 +154,7 @@ enabled_focus_mode = 0
 text = "Open Folder"
 
 [node name="RulesetLine" parent="FeaturedRulesets/VBoxContainer/ScrollContainer/FeatRsCont" instance=ExtResource( 4 )]
+visible = false
 
 [node name="ScrollButtons" type="HBoxContainer" parent="FeaturedRulesets/VBoxContainer"]
 margin_top = 646.0
