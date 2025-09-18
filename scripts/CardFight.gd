@@ -619,30 +619,30 @@ func play_card(slot: Node):
 			# Bone cost
 			if "bone_cost" in playedCard.card_data:
 				add_bones(-playedCard.card_data["bone_cost"])
-				add_bloontonium(playedCard.card_data["bone_cost"])
+				#add_bloontonium(playedCard.card_data["bone_cost"])
 			
 			# Energy cost
 			if "energy_cost" in playedCard.card_data and not no_energy_deplete:
 				set_energy(energy -playedCard.card_data["energy_cost"])
-				add_bloontonium(playedCard.card_data["energy_cost"])
+				#add_bloontonium(playedCard.card_data["energy_cost"])
 			
 			# Data cost
 			if "data_cost" in playedCard.card_data:
 				if no_energy_deplete: #Reduce Data cost by max_energy
 					spend_data(max (0, playedCard.card_data["data_cost"] - max_energy))
-					add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
+					#add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
 				else:
 					spend_data(playedCard.card_data["data_cost"])
-					add_bloontonium(playedCard.card_data["data_cost"])
-			# Energy cost
+					#add_bloontonium(playedCard.card_data["data_cost"])
+			# Mana cost
 			if "blon_cost" in playedCard.card_data:
 				add_bloontonium(-playedCard.card_data["blon_cost"])
 				
 			# Energy cost
 			if "overcharge_cost" in playedCard.card_data and not no_energy_deplete:
-				set_max_energy(energy -playedCard.card_data["overcharge_cost"])
+				set_max_energy(max_energy -playedCard.card_data["overcharge_cost"])
 			
-			print("Bloontonium at end:", bloontonium)
+			#print("Bloontonium at end:", bloontonium)
 			playedCard.move_to_parent(slot)
 			handManager.raisedCard = null
 
@@ -681,22 +681,22 @@ func play_card_back(slot):
 			# Bone cost
 			if "bone_cost" in playedCard.card_data:
 				add_bones(-playedCard.card_data["bone_cost"])
-				add_bloontonium(playedCard.card_data["bone_cost"])
+				#add_bloontonium(playedCard.card_data["bone_cost"])
 			
 			# Energy cost
 			if "energy_cost" in playedCard.card_data and not no_energy_deplete:
 				set_energy(energy -playedCard.card_data["energy_cost"])
-				add_bloontonium(playedCard.card_data["energy_cost"])
+				#add_bloontonium(playedCard.card_data["energy_cost"])
 			
 			# Data cost
 			if "data_cost" in playedCard.card_data:
 				if no_energy_deplete: #Reduce Data cost by max_energy
 					spend_data(max (0, playedCard.card_data["data_cost"] - max_energy))
-					add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
+					#add_bloontonium(max (0, playedCard.card_data["data_cost"] - max_energy))
 				else:
 					spend_data(playedCard.card_data["data_cost"])
-					add_bloontonium(playedCard.card_data["data_cost"])
-			# Energy cost
+					#add_bloontonium(playedCard.card_data["data_cost"])
+			# Mana cost
 			if "blon_cost" in playedCard.card_data:
 				add_bloontonium(-playedCard.card_data["blon_cost"])
 				
@@ -965,18 +965,18 @@ func _opponent_played_card(card, slot, ignore_cost = false):
 		print("opp Bloontonium at start:", bloontonium)
 		if "bone_cost" in card_dt:
 			add_opponent_bones(-card_dt["bone_cost"])
-			add_bloontonium(card_dt["bone_cost"])
+			#add_bloontonium(card_dt["bone_cost"])
 		if "energy_cost" in card_dt and not no_energy_deplete:
 			set_opponent_energy(opponent_energy -card_dt["energy_cost"])
-			add_opponent_bloontonium(card_dt["energy_cost"])
+			#add_opponent_bloontonium(card_dt["energy_cost"])
 		# Data cost
 		if "data_cost" in card_dt:
 			if no_energy_deplete: #Reduce Data cost by max_energy
 				spend_data(max (0, card_dt["data_cost"] - max_energy))
-				add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
+				#add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
 			else:
 				spend_data(card_dt["data_cost"])
-				add_opponent_bloontonium(card_dt["data_cost"])
+				#add_opponent_bloontonium(card_dt["data_cost"])
 		# Energy cost
 		if "blon_cost" in card_dt:
 			add_bloontonium(-card_dt["blon_cost"])
@@ -1025,18 +1025,18 @@ func _opponent_played_card_back(card, slot, ignore_cost = false):
 		print("Bloontonium at start:", bloontonium)
 		if "bone_cost" in card_dt:
 			add_opponent_bones(-card_dt["bone_cost"])
-			add_bloontonium(card_dt["bone_cost"])
+			#add_bloontonium(card_dt["bone_cost"])
 		if "energy_cost" in card_dt and not no_energy_deplete:
 			set_opponent_energy(opponent_energy -card_dt["energy_cost"])
-			add_opponent_bloontonium(card_dt["energy_cost"])
+			#add_opponent_bloontonium(card_dt["energy_cost"])
 		# Data cost
 		if "data_cost" in card_dt:
 			if no_energy_deplete: #Reduce Data cost by max_energy
 				spend_data(max (0, card_dt["data_cost"] - max_energy))
-				add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
+				#add_opponent_bloontonium(max (0, card_dt["data_cost"] - max_energy))
 			else:
 				spend_data(card_dt["data_cost"])
-				add_opponent_bloontonium(card_dt["data_cost"])
+				#add_opponent_bloontonium(card_dt["data_cost"])
 		# Energy cost
 		if "blon_cost" in card_dt:
 			add_bloontonium(-card_dt["blon_cost"])
@@ -1162,13 +1162,13 @@ func add_opponent_bones(bone_no):
 	$PlayerInfo/TheirInfo/Bones/BoneCount2.text = str(opponent_bones)
 	
 func add_bloontonium(bone_no):
-	print("Adding bloontonium ", bloontonium, " => ", bloontonium + bone_no)
+	print("Adding mana ", bloontonium, " => ", bloontonium + bone_no)
 	bloontonium += bone_no
 	$PlayerInfo/MyInfo/Blon/BlonCount.text = str(bloontonium)
 	$PlayerInfo/MyInfo/Blon/BlonCount2.text = str(bloontonium)
 
 func add_opponent_bloontonium(bone_no):
-	print("Adding enemy bloontonium ", opponent_bloontonium, " => ", opponent_bloontonium + bone_no)
+	print("Adding enemy mana ", opponent_bloontonium, " => ", opponent_bloontonium + bone_no)
 	opponent_bloontonium += bone_no
 	$PlayerInfo/TheirInfo/Blon/BlonCount.text = str(opponent_bloontonium)
 	$PlayerInfo/TheirInfo/Blon/BlonCount2.text = str(opponent_bloontonium)

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pixel_card_costs - Copy2.png-346f22585b1981cc057e8c64a5ca6b19.stex"
+path="res://.import/cost_blon~.png-eb982079c049b227c6f6b86caca3fc93.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gfx/cardextras/pixel_card_costs - Copy2.png"
-dest_files=[ "res://.import/pixel_card_costs - Copy2.png-346f22585b1981cc057e8c64a5ca6b19.stex" ]
+source_file="res://gfx/cardextras/cost_blon~.png"
+dest_files=[ "res://.import/cost_blon~.png-eb982079c049b227c6f6b86caca3fc93.stex" ]
 
 [params]
 

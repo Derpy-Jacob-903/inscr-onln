@@ -190,10 +190,6 @@ func _on_Button_pressed():
 				if slotManager.get_available_blood() < card_data["blood_cost"]:
 					print("You need more sacrifices!")
 					return
-			if "prism_cost" in card_data:
-				if slotManager.get_available_prism([]) < card_data["prism_cost"]:
-					print("You need more gems! ( " + card_data["prism_cost"] + " required.)")
-					return
 #				if slotManager.is_cat_bricked():
 #					print("No room to play a card after sacrifice!")
 #					return
@@ -202,7 +198,10 @@ func _on_Button_pressed():
 				if not slotManager.get_available_slots():
 					print("No room to play a card!")
 					return
-
+			if "prism_cost" in card_data:
+				if slotManager.get_available_prism([]) < card_data["prism_cost"]:
+					print("You need more gems! ( " + str(card_data["prism_cost"]) + " required.)")
+					return
 			if "mox_cost" in card_data and not slotManager.get_friendly_cards_sigil("Great Mox"):
 				for mox in card_data["mox_cost"]:
 					if not slotManager.get_friendly_cards_sigil(mox + " Mox") or not slotManager.get_friendly_cards_sigil(mox + " Mox"):
@@ -1027,8 +1026,9 @@ func calc_blood():
 	
 func calc_prism():
 	var blood = 0
-	for sig in grouped_sigils[SigilEffect.SigilTriggers.PRISMCOUNTER]:
+	for sig in grouped_sigils[SigilEffect.SigilTriggers.PRISM_COUNTER]:
 		blood += sig.bonus_blood()
+	blood += slot_idx().get_available_prism()
 	return blood
 
 func play_sfx(name):

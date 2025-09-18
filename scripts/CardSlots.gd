@@ -69,7 +69,7 @@ func get_available_blood() -> int:
 	return blood
 # Sacrifice
 func get_available_prism(mox_costs = []) -> int:
-	var prism = -mox_costs.count() #crudly exclude moxs the card already use
+	var prism = -mox_costs.size() #crudly exclude moxs the card already use
 	
 	var sacTargets = all_friendly_cards_backrow() if CardInfo.all_data.enable_backrow else all_friendly_cards()
 

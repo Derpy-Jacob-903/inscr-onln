@@ -82,7 +82,9 @@ func draw_costs(cDat: Dictionary) -> void:
 		"blood",
 		"bone",
 		"energy",
-		"data"
+		"data",
+		"mana",
+		"prism"
 	]:
 		var costNode = get_node("Costs/" + cost)
 		var costs = cDat.get("costs", {})

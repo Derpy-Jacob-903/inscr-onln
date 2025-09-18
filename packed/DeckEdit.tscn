@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://themes/papertheme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/DeckEdit.gd" type="Script" id=2]
@@ -26,13 +26,17 @@
 [ext_resource path="res://gfx/cardextras/SpecialSigils.png" type="Texture" id=24]
 [ext_resource path="res://gfx/portraits/Ouroboros.png" type="Texture" id=25]
 [ext_resource path="res://packed/UI/Error.tscn" type="PackedScene" id=26]
-[ext_resource path="res://gfx/cardextras/pixel_card_costs - Copy2.png" type="Texture" id=27]
+[ext_resource path="res://gfx/cardextras/cost_mana2.png" type="Texture" id=27]
 [ext_resource path="res://gfx/cardextras/cost_data.png" type="Texture" id=28]
 [ext_resource path="res://gfx/cardextras/data.tres" type="Texture" id=29]
 [ext_resource path="res://gfx/cardextras/newmoxR.tres" type="Texture" id=30]
 [ext_resource path="res://gfx/cardextras/newmoxV.tres" type="Texture" id=31]
 [ext_resource path="res://gfx/cardextras/newmox.tres" type="Texture" id=32]
 [ext_resource path="res://gfx/cardextras/blon.tres" type="Texture" id=33]
+[ext_resource path="res://gfx/cardextras/cost_prism.png" type="Texture" id=34]
+[ext_resource path="res://gfx/cardextras/cost_data2.png" type="Texture" id=35]
+[ext_resource path="res://gfx/cardextras/cost_data_text.png" type="Texture" id=36]
+[ext_resource path="res://gfx/cardextras/cost_mana.png" type="Texture" id=37]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 6 )
@@ -124,6 +128,31 @@ region = Rect2( 66, 33, 14, 15 )
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 9 )
 region = Rect2( 66, 1, 14, 15 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 34 )
+region = Rect2( 0, 0, 13, 13 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 34 )
+region = Rect2( 0, 13, 20, 13 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 34 )
+region = Rect2( 0, 26, 13.95, 13 )
+
+[sub_resource type="DynamicFontData" id=49]
+font_path = "res://fonts/Marksman.otf"
+
+[sub_resource type="DynamicFont" id=50]
+outline_size = 2
+outline_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+font_data = SubResource( 49 )
+
+[sub_resource type="DynamicFont" id=51]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 49 )
 
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 24 )
@@ -396,7 +425,6 @@ custom_fonts/font = SubResource( 21 )
 text = "x011"
 
 [node name="energy" type="HBoxContainer" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
-visible = false
 margin_left = 363.0
 margin_top = 39.0
 margin_right = 465.0
@@ -460,11 +488,10 @@ custom_fonts/font = SubResource( 21 )
 text = "x011"
 
 [node name="data" type="HBoxContainer" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
-visible = false
 margin_left = 363.0
-margin_top = 39.0
+margin_top = 78.0
 margin_right = 465.0
-margin_bottom = 78.0
+margin_bottom = 117.0
 rect_min_size = Vector2( 63, 39 )
 mouse_filter = 2
 size_flags_horizontal = 8
@@ -486,7 +513,7 @@ margin_right = 51.0
 margin_bottom = 39.0
 rect_min_size = Vector2( 51, 0 )
 mouse_filter = 2
-texture = ExtResource( 27 )
+texture = ExtResource( 35 )
 expand = true
 
 [node name="TXIcon" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/data"]
@@ -494,7 +521,7 @@ margin_right = 27.0
 margin_bottom = 39.0
 rect_min_size = Vector2( 27, 0 )
 mouse_filter = 2
-texture = ExtResource( 29 )
+texture = ExtResource( 36 )
 expand = true
 
 [node name="Text" type="Control" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/data"]
@@ -523,7 +550,71 @@ custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
 custom_fonts/font = SubResource( 39 )
 text = "x011"
 
+[node name="mana" type="HBoxContainer" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
+margin_left = 363.0
+margin_top = 117.0
+margin_right = 465.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 63, 39 )
+mouse_filter = 2
+size_flags_horizontal = 8
+custom_constants/separation = 0
+alignment = 2
+
+[node name="1" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana"]
+visible = false
+margin_right = 27.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 27, 0 )
+mouse_filter = 2
+texture = ExtResource( 37 )
+expand = true
+
+[node name="2" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana"]
+visible = false
+margin_right = 51.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 51, 0 )
+mouse_filter = 2
+texture = ExtResource( 27 )
+expand = true
+
+[node name="TXIcon" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana"]
+margin_right = 27.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 27, 0 )
+mouse_filter = 2
+texture = ExtResource( 29 )
+expand = true
+
+[node name="Text" type="Control" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana"]
+show_behind_parent = true
+margin_left = 27.0
+margin_right = 102.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 75, 0 )
+mouse_filter = 2
+
+[node name="BGCost" type="Label" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 38 )
+text = "x011"
+
+[node name="FGCost" type="Label" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/mana/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 39 )
+text = "x011"
+
 [node name="blon" type="HBoxContainer" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
+visible = false
 margin_left = 367.0
 margin_top = 39.0
 margin_right = 465.0
@@ -679,6 +770,72 @@ size_flags_horizontal = 9
 texture = ExtResource( 31 )
 expand = true
 stretch_mode = 5
+
+[node name="prism" type="HBoxContainer" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
+visible = false
+margin_left = 367.0
+margin_top = 156.0
+margin_right = 465.0
+margin_bottom = 195.0
+rect_min_size = Vector2( 63, 39 )
+mouse_filter = 2
+size_flags_horizontal = 8
+custom_constants/separation = -16
+alignment = 2
+
+[node name="1" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism"]
+visible = false
+margin_left = 1.0
+margin_right = 40.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 0 )
+mouse_filter = 2
+texture = SubResource( 46 )
+expand = true
+
+[node name="2" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism"]
+visible = false
+margin_left = 3.0
+margin_right = 63.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 60, 0 )
+mouse_filter = 2
+texture = SubResource( 47 )
+expand = true
+
+[node name="TXIcon" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism"]
+margin_right = 39.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 0 )
+mouse_filter = 2
+texture = SubResource( 48 )
+expand = true
+
+[node name="Text" type="Control" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism"]
+show_behind_parent = true
+margin_left = 23.0
+margin_right = 98.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 75, 0 )
+mouse_filter = 2
+
+[node name="BGCost" type="Label" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 50 )
+text = "x012"
+
+[node name="FGCost" type="Label" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs/prism/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 51 )
+text = "x012"
 
 [node name="nosac" type="TextureRect" parent="HBoxContainer/CardPreview/PreviewContainer/Card/Costs"]
 visible = false

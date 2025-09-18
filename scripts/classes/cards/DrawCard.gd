@@ -75,14 +75,44 @@ func draw_special():
 		match card_data.atkspecial:
 			"mox", "green_mox":
 				$AtkIcon.texture.region = Rect2(0, 0, 16, 8)
-			"mirror":
-				$AtkIcon.texture.region = Rect2(0, 27, 16, 8)
-			"ant":
+			"ant", "Ant":
 				$AtkIcon.texture.region = Rect2(0, 9, 16, 8)
 			"Bell":
 				$AtkIcon.texture.region = Rect2(0, 18, 16, 8)
+			"mirror":
+				$AtkIcon.texture.region = Rect2(0, 27, 16, 8)
 			"Hand":
 				$AtkIcon.texture.region = Rect2(0, 36, 16, 8)
+			"half_bones", "Half_Bones":
+				$AtkIcon.texture.region = Rect2(17, 0, 16, 8)
+			"spilled_blood", "Spilled_Blood":
+				$AtkIcon.texture.region = Rect2(17, 9, 16, 8)
+			"healthAttack":
+				$AtkIcon.texture.region = Rect2(17, 18, 16, 8)
+			"Blood", "blood":
+				$AtkIcon.texture.region = Rect2(17, 27, 16, 8)
+			"Prism", "prism":
+				$AtkIcon.texture.region = Rect2(17, 36, 16, 8)
+			"half_energy":
+				$AtkIcon.texture.region = Rect2(34, 0, 16, 8)
+			"quarter_data":
+				$AtkIcon.texture.region = Rect2(34, 9, 16, 8)
+			"half_data":
+				$AtkIcon.texture.region = Rect2(34, 18, 16, 8)
+			"half_blon":
+				$AtkIcon.texture.region = Rect2(34, 27, 16, 8)
+			"played_cards":
+				$AtkIcon.texture.region = Rect2(34, 36, 16, 8)
+			"orange_mox":
+				$AtkIcon.texture.region = Rect2(51, 0, 16, 8)
+			"blue_mox":
+				$AtkIcon.texture.region = Rect2(51, 9, 16, 8)
+			"purple_mox":
+				$AtkIcon.texture.region = Rect2(51, 18, 16, 8)
+			"red_mox":
+				$AtkIcon.texture.region = Rect2(51, 27, 16, 8)
+			"yellow_mox":
+				$AtkIcon.texture.region = Rect2(51, 36, 16, 8)
 
 		$AtkIcon.visible = true
 		$HBoxContainer/AtkScore.visible = false
@@ -99,11 +129,17 @@ func draw_special():
 		if "rare" in card_data:
 			$Button.hint_tooltip += "Rare: You may only use one copy of this card in your deck.\n"
 			
+		if "talking" in card_data:
+			$Button.hint_tooltip += "Talking: You may only use one talking card in your deck.\n"
+			
 		if "nosac" in card_data:
 			$Button.hint_tooltip += "Terrain: This card cannot be sacrificed.\n"
-		
+			
 		if "nohammer" in card_data:
 			$Button.hint_tooltip += "Unhammerable: This card cannot be hammered.\n"
+			
+		if "nograve" in card_data:
+			$Button.hint_tooltip += "Unhammerable: This card does not enter your graveyard when it perishes.\n"
 		
 		if "conduit" in card_data:
 			$Button.hint_tooltip += "Conduit: This card completes a circuit. At least 2 circuit completing \ncards are needed to complete a circuit.\n"

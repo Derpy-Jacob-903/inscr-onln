@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://themes/papertheme.tres" type="Theme" id=1]
 [ext_resource path="res://gfx/cardextras/pixel_card_empty.png" type="Texture" id=2]
@@ -20,13 +20,15 @@
 [ext_resource path="res://gfx/cardextras/banoverlay.png" type="Texture" id=18]
 [ext_resource path="res://gfx/cardextras/pixel_special_stat_icons.png" type="Texture" id=19]
 [ext_resource path="res://gfx/cardextras/SpecialSigils.png" type="Texture" id=20]
-[ext_resource path="res://gfx/cardextras/pixel_card_costs - Copy2.png" type="Texture" id=21]
+[ext_resource path="res://gfx/cardextras/cost_data2.png" type="Texture" id=21]
 [ext_resource path="res://gfx/cardextras/cost_data.png" type="Texture" id=22]
 [ext_resource path="res://gfx/cardextras/data.tres" type="Texture" id=23]
 [ext_resource path="res://gfx/cardextras/newmoxR.tres" type="Texture" id=24]
 [ext_resource path="res://gfx/cardextras/newmoxV.tres" type="Texture" id=25]
 [ext_resource path="res://gfx/cardextras/newmox.tres" type="Texture" id=26]
 [ext_resource path="res://gfx/cardextras/blon.tres" type="Texture" id=27]
+[ext_resource path="res://gfx/cardextras/cost_prism.png" type="Texture" id=28]
+[ext_resource path="res://gfx/cardextras/cost_data_text.png" type="Texture" id=29]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
@@ -86,6 +88,25 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 38 )
 
+[sub_resource type="StreamTexture" id=46]
+load_path = "res://.import/cost_mana.png-6aff4e4892a4a1699265c0f45dab93bc.stex"
+
+[sub_resource type="StreamTexture" id=47]
+load_path = "res://.import/cost_mana2.png-dc20a9f6e9db6eb42a60d5e2f4a393e6.stex"
+
+[sub_resource type="DynamicFontData" id=45]
+font_path = "res://fonts/Marksman.otf"
+
+[sub_resource type="DynamicFont" id=48]
+outline_size = 2
+outline_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+font_data = SubResource( 45 )
+
+[sub_resource type="DynamicFont" id=49]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 45 )
+
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 6 )
 region = Rect2( 66, 1, 14, 15 )
@@ -97,6 +118,31 @@ region = Rect2( 66, 17, 14, 15 )
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 6 )
 region = Rect2( 66, 33, 14, 15 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 28 )
+region = Rect2( 0, 0, 13, 13 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 28 )
+region = Rect2( 0, 13, 20, 13 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 28 )
+region = Rect2( 0, 26, 13.95, 13 )
+
+[sub_resource type="DynamicFontData" id=50]
+font_path = "res://fonts/Marksman.otf"
+
+[sub_resource type="DynamicFont" id=43]
+outline_size = 2
+outline_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+font_data = SubResource( 50 )
+
+[sub_resource type="DynamicFont" id=44]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 50 )
 
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 20 )
@@ -248,6 +294,7 @@ custom_fonts/font = SubResource( 21 )
 text = "x01"
 
 [node name="bone" type="HBoxContainer" parent="Costs"]
+visible = false
 margin_left = 4.0
 margin_right = 102.0
 margin_bottom = 39.0
@@ -375,8 +422,7 @@ text = "x011"
 
 [node name="data" type="HBoxContainer" parent="Costs"]
 visible = false
-margin_left = 20.0
-margin_right = 122.0
+margin_right = 102.0
 margin_bottom = 39.0
 rect_min_size = Vector2( 63, 39 )
 mouse_filter = 2
@@ -407,7 +453,7 @@ margin_right = 27.0
 margin_bottom = 39.0
 rect_min_size = Vector2( 27, 0 )
 mouse_filter = 2
-texture = ExtResource( 23 )
+texture = ExtResource( 29 )
 expand = true
 
 [node name="Text" type="Control" parent="Costs/data"]
@@ -436,7 +482,70 @@ custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
 custom_fonts/font = SubResource( 37 )
 text = "x011"
 
+[node name="mana" type="HBoxContainer" parent="Costs"]
+margin_right = 102.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 63, 39 )
+mouse_filter = 2
+size_flags_horizontal = 8
+custom_constants/separation = 0
+alignment = 2
+
+[node name="1" type="TextureRect" parent="Costs/mana"]
+visible = false
+anchor_right = 0.229
+margin_right = -2.541
+margin_bottom = 39.0
+rect_min_size = Vector2( 27, 0 )
+mouse_filter = 2
+texture = SubResource( 46 )
+expand = true
+
+[node name="2" type="TextureRect" parent="Costs/mana"]
+visible = false
+margin_right = 51.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 51, 0 )
+mouse_filter = 2
+texture = SubResource( 47 )
+expand = true
+
+[node name="TXIcon" type="TextureRect" parent="Costs/mana"]
+margin_right = 27.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 27, 0 )
+mouse_filter = 2
+texture = ExtResource( 23 )
+expand = true
+
+[node name="Text" type="Control" parent="Costs/mana"]
+show_behind_parent = true
+margin_left = 27.0
+margin_right = 102.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 75, 0 )
+mouse_filter = 2
+
+[node name="BGCost" type="Label" parent="Costs/mana/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 48 )
+text = "x011"
+
+[node name="FGCost" type="Label" parent="Costs/mana/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 49 )
+text = "x011"
+
 [node name="blon" type="HBoxContainer" parent="Costs"]
+visible = false
 margin_left = 4.0
 margin_top = 39.0
 margin_right = 102.0
@@ -593,11 +702,77 @@ texture = ExtResource( 25 )
 expand = true
 stretch_mode = 5
 
+[node name="prism" type="HBoxContainer" parent="Costs"]
+margin_left = 4.0
+margin_top = 39.0
+margin_right = 102.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 63, 39 )
+mouse_filter = 2
+size_flags_horizontal = 8
+custom_constants/separation = -16
+alignment = 2
+
+[node name="1" type="TextureRect" parent="Costs/prism"]
+visible = false
+margin_left = 1.0
+margin_right = 40.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 0 )
+mouse_filter = 2
+texture = SubResource( 40 )
+expand = true
+
+[node name="2" type="TextureRect" parent="Costs/prism"]
+visible = false
+margin_left = 3.0
+margin_right = 63.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 60, 0 )
+mouse_filter = 2
+texture = SubResource( 41 )
+expand = true
+
+[node name="TXIcon" type="TextureRect" parent="Costs/prism"]
+margin_right = 39.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 0 )
+mouse_filter = 2
+texture = SubResource( 42 )
+expand = true
+
+[node name="Text" type="Control" parent="Costs/prism"]
+show_behind_parent = true
+margin_left = 23.0
+margin_right = 98.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 75, 0 )
+mouse_filter = 2
+
+[node name="BGCost" type="Label" parent="Costs/prism/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 43 )
+text = "x012"
+
+[node name="FGCost" type="Label" parent="Costs/prism/Text"]
+margin_left = -3.0
+margin_right = 22.0
+margin_bottom = 13.0
+rect_scale = Vector2( 3, 3 )
+custom_colors/font_color = Color( 0.843137, 0.886275, 0.639216, 1 )
+custom_fonts/font = SubResource( 44 )
+text = "x012"
+
 [node name="nosac" type="TextureRect" parent="Costs"]
 visible = false
 margin_left = 35.0
+margin_top = 117.0
 margin_right = 102.0
-margin_bottom = 39.0
+margin_bottom = 156.0
 rect_min_size = Vector2( 67, 39 )
 mouse_filter = 2
 size_flags_horizontal = 8
@@ -608,8 +783,9 @@ stretch_mode = 5
 [node name="nohammer" type="TextureRect" parent="Costs"]
 visible = false
 margin_left = 35.0
+margin_top = 156.0
 margin_right = 102.0
-margin_bottom = 39.0
+margin_bottom = 195.0
 rect_min_size = Vector2( 67, 39 )
 mouse_filter = 2
 size_flags_horizontal = 8
@@ -620,9 +796,9 @@ stretch_mode = 5
 [node name="rare" type="TextureRect" parent="Costs"]
 visible = false
 margin_left = 35.0
-margin_top = 45.0
+margin_top = 195.0
 margin_right = 102.0
-margin_bottom = 84.0
+margin_bottom = 234.0
 rect_min_size = Vector2( 67, 39 )
 mouse_filter = 2
 size_flags_horizontal = 8

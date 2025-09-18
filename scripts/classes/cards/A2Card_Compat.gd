@@ -123,16 +123,26 @@ func draw_atkspecial(cDat):
 		$AtkIcon.texture = $AtkIcon.texture.duplicate()
 		
 		match cDat.atkspecial:
-			"mox", "green_mox":
+			"mox", "green_mox", "Mox":
 				$AtkIcon.texture.region = Rect2(0, 0, 16, 8)
-			"mirror":
-				$AtkIcon.texture.region = Rect2(0, 27, 16, 8)
-			"ant":
+			"ant", "Ant":
 				$AtkIcon.texture.region = Rect2(0, 9, 16, 8)
 			"Bell":
 				$AtkIcon.texture.region = Rect2(0, 18, 16, 8)
+			"mirror":
+				$AtkIcon.texture.region = Rect2(0, 27, 16, 8)
 			"Hand":
 				$AtkIcon.texture.region = Rect2(0, 36, 16, 8)
+			"half_bones", "Half_Bones":
+				$AtkIcon.texture.region = Rect2(17, 0, 16, 8)
+			"Spilled_Blood", "Spilled_Blood":
+				$AtkIcon.texture.region = Rect2(17, 9, 16, 8)
+			"healthAttack":
+				$AtkIcon.texture.region = Rect2(17, 18, 16, 8)
+			"trean":
+				$AtkIcon.texture.region = Rect2(17, 27, 16, 8)
+			"Temple", "temple":
+				$AtkIcon.texture.region = Rect2(17, 36, 16, 8)
 
 		$AtkIcon.visible = true
 		$AtkScore.visible = false
@@ -244,7 +254,8 @@ func draw_costs(cDat: Dictionary) -> void:
 		"bone",
 		"energy",
 		"data",
-		"blon"
+		"mana",
+		"prism"
 	]:
 		var costNode = costRoot.get_node(cost) #this is null for "data"?
 #		var costs = cDat.get("costs", {})

@@ -7,8 +7,8 @@ func handle_event(event: String, params: Array):
 	if event == "card_summoned" and params[0] == card:
 
 		if is_friendly:
-			fightManager.set_max_energy(min(fightManager.max_energy + 1, 6))
+			fightManager.set_max_energy(min(fightManager.max_energy + 1, fightManager.max_energy_limit))
 			fightManager.set_energy(min(fightManager.max_energy + fightManager.max_energy_buff, fightManager.energy + 1))
 		else:
-			fightManager.set_opponent_max_energy(min(fightManager.opponent_max_energy + 1, 6))
+			fightManager.set_opponent_max_energy(min(fightManager.opponent_max_energy + 1, fightManager.max_energy_limit))
 			fightManager.set_opponent_energy(min(fightManager.opponent_max_energy + fightManager.opponent_max_energy_buff, fightManager.opponent_energy + 1))

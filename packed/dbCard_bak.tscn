@@ -174,8 +174,9 @@ __meta__ = {
 }
 
 [node name="BlonCost" type="TextureRect" parent="VBoxContainer/Portrait/HBoxContainer/VBoxContainer"]
+visible = false
 margin_right = 50.0
-margin_bottom = 34.0
+margin_bottom = 69.0
 rect_min_size = Vector2( 26, 15 )
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -188,6 +189,7 @@ __meta__ = {
 }
 
 [node name="BloontoniumCost" type="TextureRect" parent="VBoxContainer/Portrait/HBoxContainer/VBoxContainer"]
+visible = false
 margin_top = 34.0
 margin_right = 50.0
 margin_bottom = 69.0
@@ -201,9 +203,23 @@ stretch_mode = 5
 
 [node name="MoxCost" type="TextureRect" parent="VBoxContainer/Portrait/HBoxContainer/VBoxContainer"]
 visible = false
-margin_top = 60.0
 margin_right = 50.0
-margin_bottom = 75.0
+margin_bottom = 69.0
+rect_min_size = Vector2( 26, 15 )
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PrismCost" type="TextureRect" parent="VBoxContainer/Portrait/HBoxContainer/VBoxContainer"]
+visible = false
+margin_right = 50.0
+margin_bottom = 69.0
 rect_min_size = Vector2( 26, 15 )
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -217,9 +233,8 @@ __meta__ = {
 
 [node name="Special" type="TextureRect" parent="VBoxContainer/Portrait/HBoxContainer/VBoxContainer"]
 visible = false
-margin_top = 60.0
 margin_right = 50.0
-margin_bottom = 75.0
+margin_bottom = 69.0
 rect_min_size = Vector2( 13, 15 )
 mouse_filter = 2
 size_flags_horizontal = 3
